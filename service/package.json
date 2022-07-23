@@ -1,0 +1,14 @@
+{
+  "name": "service",
+  "version": "1.0.0",
+  "description": "Practicando Microservicios con Node js",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "Manuel Alvarado Estanga",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.1"
+  }
+}

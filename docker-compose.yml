@@ -1,0 +1,32 @@
+version : '3'
+
+# The expose section allows us to expose specific ports from our container only to other services on the same network. We can do this simply by specifying the container ports.
+# The ports section also exposes specified ports from containers. Unlike the previous one, ports are open not only for other services on the same network but also to the host
+
+services:
+    node_gateway:
+        image: node_gateway
+        ports:
+            - "3000:3000"
+        depends_on:
+            - nodeapp1
+            - nodeapp2
+            - nodeapp3
+    nodeapp1:
+        image: node_service
+        environment:
+            - SERVICE_ID=service1
+        expose:
+            - "3000"
+    nodeapp2:
+        image: node_service
+        environment:
+            - SERVICE_ID=service2
+        expose:
+          - "3000"
+    nodeapp3:
+        image: node_service
+        environment:
+            - SERVICE_ID=service3
+        expose:
+          - "3000"
