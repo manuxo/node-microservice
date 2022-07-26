@@ -1,14 +1,22 @@
-version : '3'
+version: '3'
 
 # The expose section allows us to expose specific ports from our container only to other services on the same network. We can do this simply by specifying the container ports.
 # The ports section also exposes specified ports from containers. Unlike the previous one, ports are open not only for other services on the same network but also to the host
 
 services:
+    rabbit_server:
+        image: rabbitmq
+        ports:
+            - "5672:5672"
+            - "15672:15672"
     node_gateway:
         image: node_gateway
+        environment:
+            - RABBITMQ_HOST=rabbit_server
         ports:
             - "3000:3000"
         depends_on:
+            - rabbit_server
             - nodeapp1
             - nodeapp2
             - nodeapp3
@@ -16,17 +24,26 @@ services:
         image: node_service
         environment:
             - SERVICE_ID=service1
+            - RABBITMQ_HOST=rabbit_server
+        depends_on:
+            - rabbit_server
         expose:
             - "3000"
     nodeapp2:
         image: node_service
         environment:
             - SERVICE_ID=service2
+            - RABBITMQ_HOST=rabbit_server
+        depends_on:
+            - rabbit_server
         expose:
-          - "3000"
+            - "3000"
     nodeapp3:
         image: node_service
         environment:
             - SERVICE_ID=service3
+            - RABBITMQ_HOST=rabbit_server
+        depends_on:
+            - rabbit_server
         expose:
-          - "3000"
+            - "3000"
